@@ -6,14 +6,14 @@ import { toast } from "react-hot-toast";
 
 import { X } from "lucide-react";
 
-import { Product } from "@/types";
+import { CartProduct, Product } from "@/types";
 import React from "react";
 import IconButton from "@/components/ui/icon-button";
 import Currency from "@/components/ui/currency";
 import useCart from "@/hooks/use-cart";
 
 interface CartItemProps {
-  data: Product;
+  data: CartProduct;
 }
 
 const CartItem: React.FC<CartItemProps> = ({ data }) => {
@@ -24,6 +24,9 @@ cart.removeItem(data.id)
 
 
  }
+
+ const formatDate = (date:any) => date ? new Date(date).toLocaleDateString() : 'N/A';
+
 
   return (
     <li className="flex py-6 border-b">
@@ -47,6 +50,12 @@ cart.removeItem(data.id)
             <p className="text-gray-500">{data.task.name}</p>
             <p className="text-gray-500 ml-4 border-l border-gray-200 pl-4">
               {data.option.name}
+            </p>
+          </div>
+          <div className="mt-1 flex text-sm">
+            <p className="text-gray-500">{formatDate(data?.bookingDetails?.fromDate)}</p>
+            <p className="text-gray-500 ml-4 border-l border-gray-200 pl-4">
+              {formatDate(data?.bookingDetails?.toDate)}
             </p>
           </div>
           <Currency value={data.price}/>

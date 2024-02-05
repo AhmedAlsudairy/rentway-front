@@ -1,6 +1,6 @@
 "use client";
 
-import Button from "@/components/ui/button";
+import MyButton from "@/components/ui/my-button";
 import IconButton from "@/components/ui/icon-button";
 import {Option, Task } from "@/types";
 import { Dialog } from "@headlessui/react";
@@ -20,10 +20,10 @@ const MobileFilters: React.FC<MobileFiltersProps> = ({ tasks, options }) => {
 
   return (
     <>
-      <Button onClick={onOpen} className="flex items-center gap-x-2 lg:hidden">
+      <MyButton onClick={onOpen} className="flex items-center gap-x-2 lg:hidden">
         Filters
         <Plus size={20} />
-      </Button>
+      </MyButton>
       <Dialog
         open={open}
         as="div"

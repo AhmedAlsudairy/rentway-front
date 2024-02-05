@@ -60,10 +60,10 @@ cart.addItem(data)
               icon={<Expand size={20} className="text-gray-600" />}
             />
 
-            <IconButton
+            {data.isBookable||<IconButton
               onClick={onAddtoCart}
               icon={<ShoppingCart size={20} className="text-gray-600" />}
-            />
+            />}
           </div>
         </div>
       </div>

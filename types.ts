@@ -22,8 +22,17 @@ export interface Product {
   isFeatured: boolean;
   task: Task;
   option: Option;
-
+  isBookable : boolean 
   images: Image[];
+}
+
+export interface BookingDetails {
+  fromDate: Date | null;
+  toDate: Date | null;
+}
+
+export interface CartProduct extends Product {
+  bookingDetails?: BookingDetails;
 }
 
 export interface Image {

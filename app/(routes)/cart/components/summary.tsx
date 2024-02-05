@@ -8,8 +8,9 @@ import { useSearchParams } from "next/navigation";
 
 import { toast } from "react-hot-toast";
 import Currency from "@/components/ui/currency";
-import Button from "@/components/ui/button";
+import MyButton from "@/components/ui/my-button";
 import useCart from "@/hooks/use-cart";
+import { calculateDaysBetweenDates } from "@/lib/utils";
 
 const Summary = () => {
 const searchParams = useSearchParams();
@@ -33,12 +34,19 @@ useEffect(() => {
 
 
 const totalPrice = items.reduce((total, item) => {
-    return total + Number(item.price);
-  }, 0);
+  const fromDate = item.bookingDetails?.fromDate || null;
+    const toDate = item.bookingDetails?.toDate || null;
+  const days = calculateDaysBetweenDates(fromDate,toDate);
+  return total + (Number(item.price) * days);  }, 0);
 
   const onCheckout = async () => {
     const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/checkout`, {
-      productIds: items.map((item) => item.id)
+      productIds: items.map((item) => item.id),
+      bookingDetails: items.map((item) => ({
+        id: item.id,
+        fromDate: item.bookingDetails?.fromDate,
+        toDate: item.bookingDetails?.toDate,
+      })),
     });
 
     window.location = response.data.url;
@@ -60,7 +68,7 @@ const totalPrice = items.reduce((total, item) => {
           <Currency value={totalPrice} />
         </div>
       </div>
-      <Button onClick={onCheckout} className="w-full mt-6" disabled={items.length === 0} > Checkout</Button>
+      <MyButton onClick={onCheckout} className="w-full mt-6" disabled={items.length === 0} > Checkout</MyButton>
     </div>
   );
 };
